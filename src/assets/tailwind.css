@@ -3,3 +3,14 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+
+@layer components {
+    .task-reminder-true {
+      @apply shadow-md rounded-lg m-4 p-1 border border-l-8 flex justify-between items-center cursor-pointer;
+    }
+    .task-reminder-false {
+        @apply shadow-md rounded-lg m-4 p-1 flex justify-between items-center cursor-pointer;
+    }
+  }

@@ -26,8 +26,10 @@
         methods : {
             onClick(){
                 console.log("Clicked")
+                this.$emit('toggle-add-task')
             }
-        }
+        },
+        emits: ['toggle-add-task']
 
     }
 </script>

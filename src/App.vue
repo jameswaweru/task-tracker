@@ -1,5 +1,5 @@
 <template>
-  <Header title="wewew" />
+  <Header @toggle-add-task="$emit('toggle-add-task')" title="wewew" />
   <router-view/>
 </template>
 
@@ -12,6 +12,7 @@ export default {
   components: {
     Header
   },
+  emits: ['toggle-add-task']
 
 }
 </script>

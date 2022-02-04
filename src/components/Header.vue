@@ -14,11 +14,11 @@
                     </svg>
                   </div> 
                   <!--Menu icon end -->
-                  <div>Centef {{title}}</div>
+                  <div class="text-xl font-semibold">Task Reminder</div>
 
                   <!-- cart layout start in small screen -->
                   <div class="block lg:hidden mr-4">
-                    <AddTaskButton />
+                    <AddTaskButton @toggle-add-task="$emit('toggle-add-task')" />
                 </div> 
                     <!-- cart layout end in small screen -->
                     
@@ -77,6 +77,8 @@ import AddTaskButton from '@/components/AddTaskButton'
         props : ['title'],
         components : {
             AddTaskButton
-        }
+        },
+        emits: ['toggle-add-task']
+
     }
 </script>
