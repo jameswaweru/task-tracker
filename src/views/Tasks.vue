@@ -11,9 +11,15 @@
         </div>
         
 
-        <div :key="task.id" v-for="task in tasks">
+        <div v-if="tasks.length">
+          <div :key="task.id" v-for="task in tasks">
             <Task @toggle-reminder="toggleTask" @delete-task="deleteTask" :task = "task" />
+          </div>
         </div>
+        <div v-else>
+          <p class="text-xs">Loading pasks</p>
+        </div>
+        
     </div>
     
 </template>
@@ -22,6 +28,8 @@
 
 import Task from '../components/Task.vue'
 import AddTask from '../components/AddTask.vue'
+//import axios from 'axios'
+import TasksService from '../services/TasksService'
 
 export default {
     name: 'Tasks',
@@ -37,7 +45,17 @@ export default {
         }
     },
 
+    mounted(){
+
+    },
+
     methods:{
+      async fetchTasks() {
+        const res = await fetch('http://localhost:8084/api/v2/test/getTasks')
+        const data = await res.json()
+        console.log('tasks:',data.data)
+        return data;
+      },
       toggleAddTaskForm(){
         this.showAddTask = !this.showAddTask;
         if(this.showAddTask){
@@ -48,8 +66,36 @@ export default {
         console.log('toggle add task form ',this.showAddTask )
       },
       addTask(task){
+
+        const token = "";
+
+        const headers = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
         console.log('about to add a task>>', task)
-        this.tasks = [...this.tasks , task]
+        
+        TasksService.postTask(task, headers)
+        .then(response => {
+          this.tasks = response.data.data,
+          console.log('<<<<<<<<>>>>>>>'+response.data.data)
+        })
+        .catch(error => {
+          console.log('There was an error:' + error)
+          console.log(error.response.data);  
+          console.log(error.response.status);  
+          console.log(error.response.headers);  
+          // if ('statusDescription' in error.response) {
+          //   console.log("errror has description:"+error.response.statusDescription)
+          // }
+          if(error.response.data.hasOwnProperty('statusDescription')){
+            console.warn(error.response.data.statusDescription)
+          }
+        }) .finally(() => {
+          console.log('Loading finished')
+        })
+
+        // this.tasks = [...this.tasks , task]
       },
       deleteTask(id){
         console.log('task',id)
@@ -64,52 +110,78 @@ export default {
 
     },
 
-  created(){
-    this.tasks = [
-      {
-        id:1,
-        text: 'Doctors Appointment',
-        day: 'March 1st at 2:30 Pm',
-        reminder: true
-      },
-      {
-        id:2,
-        text: 'John Appointment',
-        day: 'June 1st at 2:30 Pm',
-        reminder: false
-      },
-      {
-        id:3,
-        text: 'Church Going',
-        day: 'Feb 1st at 2:30 Pm',
-        reminder: true
-      },
-      {
-        id:4,
-        text: 'John Appointment',
-        day: 'June 1st at 2:30 Pm',
-        reminder: false
-      },
-      {
-        id:5,
-        text: 'Church Going',
-        day: 'Feb 1st at 2:30 Pm',
-        reminder: true
-      },
-      {
-        id:6,
-        text: 'John Appointment',
-        day: 'June 1st at 2:30 Pm',
-        reminder: false
-      },
-      {
-        id:7,
-        text: 'Church Going',
-        day: 'Feb 1st at 2:30 Pm',
-        reminder: true
-      }
-    ]
-  },
-   emits:['delete-task', 'toggle-reminder']
+  // async created(){
+  //   // this.tasks =  
+   
+  //   this.tasks = await this.fetchTasks()
+  //   console.log('>>>>>>>>>', this.tasks)
+  // },
+   created(){
+
+      const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNTQ3MjY3NjU5NzciLCJleHAiOjE2NDQyMjIwNDcsImlhdCI6MTY0NDE4NjA0N30.LxdrXxUdYoUc_05gH1QVB5p5Qh-9YaC75z5n-mOLcx0";
+
+        const headers = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
+
+    //  axios.get('http://localhost:8084/api/v2/test/getTasks')
+    TasksService.getTasks(headers)
+     .then(response => {
+       this.tasks = response.data.data,
+       console.log('<<<<<<<<>>>>>>>'+response.data.data)
+     })
+     .catch(error => {
+       console.log('There was an error:' + error.response)
+     })
+
+   },
+   emits:['delete-task', 'toggle-reminder'],
+   
 }
 </script>
+
+// [
+//        {
+//         id:1,
+//         text: 'Doctors Appointment',
+//         day: 'March 1st at 2:30 Pm',
+//         reminder: true
+//       },
+//       {
+//         id:2,
+//         text: 'John Appointment',
+//         day: 'June 1st at 2:30 Pm',
+//         reminder: false
+//       },
+//       {
+//         id:3,
+//         text: 'Church Going',
+//         day: 'Feb 1st at 2:30 Pm',
+//         reminder: true
+//       },
+//       {
+//         id:4,
+//         text: 'John Appointment',
+//         day: 'June 1st at 2:30 Pm',
+//         reminder: false
+//       },
+//       {
+//         id:5,
+//         text: 'Church Going',
+//         day: 'Feb 1st at 2:30 Pm',
+//         reminder: true
+//       },
+//       {
+//         id:6,
+//         text: 'John Appointment',
+//         day: 'June 1st at 2:30 Pm',
+//         reminder: false
+//       },
+//       {
+//         id:7,
+//         text: 'Church Going',
+//         day: 'Feb 1st at 2:30 Pm',
+//         reminder: true
+//       }
+//     ];

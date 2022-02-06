@@ -1,0 +1,12 @@
+{
+    "statusDescription": " tasks found",
+    "data": [
+        {
+            "id": 1,
+            "text": "Going Church",
+            "day": "Sunday",
+            "reminder": true
+        }
+    ],
+    "statusCode": 200
+}
