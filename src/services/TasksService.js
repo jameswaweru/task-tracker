@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8084',
-    withCredentials: true,
+    baseURL:  'https://test.blink.co.ke', //'http://localhost:8084',
+    withCredentials: false,
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

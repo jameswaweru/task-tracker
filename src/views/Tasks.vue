@@ -118,7 +118,7 @@ export default {
   // },
    created(){
 
-      const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNTQ3MjY3NjU5NzciLCJleHAiOjE2NDQyMjIwNDcsImlhdCI6MTY0NDE4NjA0N30.LxdrXxUdYoUc_05gH1QVB5p5Qh-9YaC75z5n-mOLcx0";
+      const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNTQ3MjY3NjU5NzciLCJleHAiOjE2NDQzNTkzNTAsImlhdCI6MTY0NDMyMzM1MH0.jxAY9Bg_BjiwBNscHdL-pEBOlqGQk7F_7vr_pFHUGYI";
 
         const headers = {
             headers: { Authorization: `Bearer ${token}` }
